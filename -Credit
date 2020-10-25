@@ -1,0 +1,60 @@
+package com.company;
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Number: ");
+        String s = input.nextLine();
+        String cardType = "";
+        boolean isValid = false;
+        if(s.length() == 15) {
+            if(s.substring(0, 2).equals("34") || s.substring(0, 2).equals("37")) {
+                cardType = "AMEX";
+                isValid = validateNumber(s);
+            }
+        } else if(s.length() == 13) {
+            if(s.charAt(0) == '4') {
+                cardType = "VISA";
+                isValid = validateNumber(s);
+            }
+        } else if(s.length() == 16) {
+            if(s.charAt(0) == '4') {
+                cardType = "VISA";
+                isValid = validateNumber(s);
+            } else if(s.substring(0, 2).equals("51") || s.substring(0, 2).equals("52") || s.substring(0, 2).equals("53") || s.substring(0, 2).equals("54") || s.substring(0, 2).equals("55")) {
+                cardType = "MASTERCARD";
+                isValid = validateNumber(s);
+            }
+        }
+        if(isValid && !cardType.equals("")) {
+            System.out.println(cardType);
+        } else {
+            System.out.println("INVALID");
+        }
+    }
+    public static boolean validateNumber(String number) {
+        int sum = 0;
+        for(int i = number.length()- 2; i >= 0; i = i-2) {
+            int n = Integer.parseInt(Character.toString(number.charAt(i))) * 2;
+            if(n > 9) {
+                while(n > 0) {
+                    sum += n % 10;
+                    n = n/10;
+                }
+            } else {
+                sum += n;
+            }
+        }
+        for(int i = number.length()-1; i >= 0; i = i - 2) {
+            int n = Integer.parseInt(Character.toString(number.charAt(i)));
+            sum += n;
+
+        }
+        if(sum % 10 == 0) {
+            return true;
+        }
+        return false;
+    }
+}
